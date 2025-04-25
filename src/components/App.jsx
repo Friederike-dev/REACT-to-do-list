@@ -1,42 +1,48 @@
 import React, { useState } from "react";
+import ToDoItem from "./ToDoItem";
+import InputArea from "./InputArea";
 
 function App() {
-  // Array for the to-do items
-  const [items, setItems] = useState([]); 
-  // to save the input value
-  const [inputText, setInputText] = useState("");
+  const [items, setItems] = useState([]); // Array for to-do items
 
-  // to update the input value
-  function handleChange(event) {
-    const { value } = event.target;
-    setInputText(value);
+  function updateList(inputText) {
+    // adds a new item to the list, also with an isCompleted property
+    setItems((prevItems) => [
+      ...prevItems,
+      { text: inputText, isCompleted: false }
+    ]);
   }
 
-  function updateList() {
-    // add the new value to the array
-    setItems((prevItems) => [...prevItems, inputText]);
-    // reset the input field
-    setInputText("");
+  function deleteItem(id) {
+    setItems((prevItems) => prevItems.filter((item, index) => index !== id));
   }
+
+  function toggleComplete(id) {
+    // toggles the isCompleted property of the item
+    setItems((prevItems) =>
+      prevItems.map((item, index) =>
+        index === id ? { ...item, isCompleted: !item.isCompleted } : item
+      )
+    );
+  }
+
   return (
     <div className="container">
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-      <div className="form">
-      <input
-          onChange={handleChange}
-          type="text"
-          value={inputText} // Bind the input value
-        />
-        <button onClick={updateList}>
-          <span>Add</span>
-        </button>
-      </div>
+      <InputArea onAdd={updateList} />
       <div>
-      <ul>
+        <ul>
           {items.map((item, index) => (
-            <li key={index}>{item}</li>
+            <ToDoItem
+              key={index}
+              id={index}
+              text={item.text}
+              isCompleted={item.isCompleted}
+              onChecked={deleteItem}
+              onToggle={toggleComplete}
+            />
           ))}
         </ul>
       </div>
@@ -45,5 +51,3 @@ function App() {
 }
 
 export default App;
-
-

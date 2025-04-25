@@ -79,3 +79,33 @@ li {
   position: relative;
   padding: 0.5rem;
 }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.icon-group {
+  display: flex;
+  align-items: center;
+}
+
+.check-icon,
+.delete-icon {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.check-icon {
+  margin-right: 10px;
+}
+
+.check-icon:hover {
+  color: green;
+}
+
+.delete-icon:hover {
+  color: red;
+}
